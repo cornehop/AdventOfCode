@@ -11,12 +11,13 @@ public class Day1 {
     public static void main(String[] args) throws FileNotFoundException {
         // Read resource
         FileHelpers fileHelpers = new FileHelpers();
-        Scanner reader = fileHelpers.getResourceFile("Day1-Input1.txt");
+        Scanner reader = fileHelpers.getResourceFile("Day01-Input1.txt");
 
         List<String> lines = new ArrayList<>();
         while (reader.hasNextLine()) {
             lines.add(reader.nextLine());
         }
+        reader.close();
 
         int[] array1 = new int[lines.size()];
         int[] array2 = new int[lines.size()];
@@ -26,8 +27,6 @@ public class Day1 {
             array1[index] = Integer.parseInt(items[0]);
             array2[index] = Integer.parseInt(items[1]);
         }
-
-        reader.close();
 
         int result = calculateDistance(array1, array2);
         System.out.println("Total distance: " + result);
@@ -40,7 +39,7 @@ public class Day1 {
         int similarity = 0;
         for (int value : array1) {
             int occurrences = getOccurrences(value, array2);
-            similarity = similarity + (value * occurrences);
+            similarity += (value * occurrences);
         }
 
         return similarity;
@@ -70,9 +69,9 @@ public class Day1 {
             }
 
             if (firstItem < secondItem) {
-                totalDistance = totalDistance + (secondItem - firstItem);
+                totalDistance += (secondItem - firstItem);
             } else {
-                totalDistance = totalDistance + (firstItem - secondItem);
+                totalDistance += (firstItem - secondItem);
             }
         }
 
