@@ -1,4 +1,4 @@
-package puzzles.day02;
+package puzzles;
 
 import core.Enums.reportDirection;
 import core.FileHelpers;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
-public class Day2 {
+public class Day02 {
     public static void main(String[] args) throws FileNotFoundException {
         // Read resource
         FileHelpers fileHelpers = new FileHelpers();

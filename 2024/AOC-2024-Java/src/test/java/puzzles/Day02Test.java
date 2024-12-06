@@ -1,11 +1,11 @@
-package puzzles.day02;
+package puzzles;
 
 import core.Enums.reportDirection;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-public class Day2Test {
+public class Day02Test {
     @Test
     public void getSafeReportCountTest() {
         // Arrange
@@ -19,7 +19,7 @@ public class Day2Test {
         };
 
         // Act
-        int result = Day2.getSafeReportCount(testInput,false);
+        int result = Day02.getSafeReportCount(testInput,false);
 
         // Assert
         Assert.assertEquals(2, result);
@@ -39,7 +39,7 @@ public class Day2Test {
         };
 
         // Act
-        int result = Day2.getSafeReportCount(testInput, true);
+        int result = Day02.getSafeReportCount(testInput, true);
 
         // Assert
         Assert.assertEquals(5, result);
@@ -51,7 +51,7 @@ public class Day2Test {
         int[] report = {7,6,4,2,1};
 
         // Act
-        boolean result = Day2.reportIsSafe(report, false);
+        boolean result = Day02.reportIsSafe(report, false);
 
         // Assert
         Assert.assertTrue(result);
@@ -63,7 +63,7 @@ public class Day2Test {
         int[] report = {1,2,7,8,9};
 
         // Act
-        boolean result = Day2.reportIsSafe(report, false);
+        boolean result = Day02.reportIsSafe(report, false);
 
         // Assert
         Assert.assertFalse(result);
@@ -75,7 +75,7 @@ public class Day2Test {
         int[] report = {8,6,4,4,1};
 
         // Act
-        boolean result = Day2.reportIsSafe(report, false);
+        boolean result = Day02.reportIsSafe(report, false);
 
         // Assert
         Assert.assertFalse(result);
@@ -87,7 +87,7 @@ public class Day2Test {
         int[] report = {1,2,3,4,5};
 
         // Act
-        reportDirection result = Day2.getReportDirection(report);
+        reportDirection result = Day02.getReportDirection(report);
 
         // Assert
         Assert.assertEquals(reportDirection.increasing, result);
@@ -99,7 +99,7 @@ public class Day2Test {
         int[] report = {5,4,3,2,1};
 
         // Act
-        reportDirection result = Day2.getReportDirection(report);
+        reportDirection result = Day02.getReportDirection(report);
 
         // Assert
         Assert.assertEquals(reportDirection.decreasing, result);
@@ -111,7 +111,7 @@ public class Day2Test {
         int[] report = {1,1,2,3,4};
 
         // Act
-        reportDirection result = Day2.getReportDirection(report);
+        reportDirection result = Day02.getReportDirection(report);
 
         // Assert
         Assert.assertEquals(reportDirection.non, result);
