@@ -1,4 +1,4 @@
-# Advent of Code 2024 - Java/Kotlin
+# Advent of Code 2024 - Java & Kotlin
 
 **Java**
 - Day 1: :star: :star:
@@ -7,4 +7,4 @@
 - Day 4: :star: :star:
 
 **Kotlin**
-- Day 5: :star: 
+- Day 5: :star: :star:

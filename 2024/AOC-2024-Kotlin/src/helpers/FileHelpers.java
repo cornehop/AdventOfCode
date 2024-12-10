@@ -3,6 +3,8 @@ package helpers;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class FileHelpers {
@@ -17,5 +19,15 @@ public class FileHelpers {
 
         File file = new File(url.getFile());
         return new Scanner(file);
+    }
+
+    public List<String> getLinesFromFile(String fileName) throws FileNotFoundException {
+        Scanner reader = getResourceFile(fileName);
+        List<String> lines = new ArrayList<>();
+        while (reader.hasNextLine()) {
+            lines.add(reader.nextLine());
+        }
+        reader.close();
+        return lines;
     }
 }
