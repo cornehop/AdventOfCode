@@ -75,7 +75,7 @@ class Day06Test {
     }
 
     @Test
-    fun getRouteCountTest() {
+    fun getRouteBlocksTest() {
         // Arrange
         val input = listOf(
             "....#.....",
@@ -92,10 +92,10 @@ class Day06Test {
         val map = Day06().getDataFromInput(input)
 
         // Act
-        val result = Day06().getRouteCount(map)
+        val result = Day06().getRouteBlocks(map)
 
         // Assert
-        Assertions.assertEquals(41, result)
+        Assertions.assertEquals(41, result.size)
     }
 
     @Test

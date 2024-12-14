@@ -11,11 +11,12 @@ class Day06 {
         val lines = fileHelpers.getLinesFromFile("Day06-Input.txt")
         val map = getDataFromInput(lines)
 
-        val result1 = getRouteCount(map)
-        println("Result for part 1: $result1")
+        val defaultRoute = getRouteBlocks(map)
+        val part1 = defaultRoute.size;
+        println("Result for part 1: $part1")
     }
 
-    fun getRouteCount(map: List<List<Char>>): Int {
+    fun getRouteBlocks(map: List<List<Char>>): List<Pair<Int,Int>> {
         val visitedBlocks = mutableListOf<Pair<Int,Int>>()
         var finished = false
         var movingDirection = MovingDirection.Up
@@ -48,7 +49,32 @@ class Day06 {
             }
         }
 
-        return visitedBlocks.size
+        return visitedBlocks
+    }
+
+    fun predictNextObstacle(map: List<List<Char>>) {
+        // TODO:
+        // make sure the map consists of "+" on every corner where the guard changes route
+        // for every "+", search the next "+" in the same row (do this for every "+")
+        // if the second "+" exists, find a "+" in the same vertical row of the first item
+        // if the third exists, place an obstacle below the fourth block
+        // So if the first is [1][3], the second [1][7] and the third [5][3], then the obstacle should be BELOW [5][7]
+        // OR find the third in the same vertical row as the second item and try te obstacle below the first item
+        // So in that case, if the first is [1][3], the second [1][7] and the third [5][7], then the obstacle should be LEFT of [5][3]
+        // Possibly run the map with the new obstacle, but if it works we should be able to predict this method without even testing it?
+        // Make a version with every test run and a version without the test run and check if they show the same result
+    }
+
+    fun createSquaresForBlock(map: List<List<Char>>, start: Pair<Int,Int>) {
+        val possibleObstacles = mutableListOf<Pair<Int,Int>>()
+        val line = map[start.first]
+        for (index in line.indices) {
+            val secondBlock = map[start.first][index];
+            if (index <= start.second || secondBlock != '+') {
+                continue;
+            }
+
+        }
     }
 
     fun getNextPosition(currentPosition: Pair<Int,Int>, direction: MovingDirection): Pair<Int, Int> {
