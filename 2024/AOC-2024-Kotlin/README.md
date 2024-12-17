@@ -9,3 +9,4 @@
 **Kotlin**
 - Day 5: :star: :star:
 - Day 6: :star: 
+- Day 7: :star: :star:
