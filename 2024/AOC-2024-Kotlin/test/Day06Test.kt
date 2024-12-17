@@ -99,7 +99,7 @@ class Day06Test {
     }
 
     @Test
-    fun getNextObstacleOptionTest() {
+    fun routeLoops_False_Test() {
         // Arrange
         val input = listOf(
             "....#.....",
@@ -116,9 +116,58 @@ class Day06Test {
         val map = Day06().getDataFromInput(input)
 
         // Act
-        // val result = Day06().getNextObstacleOption(map, listOf())
+        val result = Day06().routeLoops(map)
 
         // Assert
-        // Assertions.assertEquals(Pair(6, 3), result)
+        Assertions.assertFalse(result)
+    }
+
+    @Test
+    fun routeLoops_True_Test() {
+        // Arrange
+        val input = listOf(
+            "....#.....",
+            ".........#",
+            "..........",
+            "..#.......",
+            ".......#..",
+            "..........",
+            ".#..^.....",
+            "........#.",
+            "#.........",
+            "......##..",
+        )
+        val map = Day06().getDataFromInput(input)
+
+        // Act
+        val result = Day06().routeLoops(map)
+
+        // Assert
+        Assertions.assertTrue(result)
+    }
+
+    @Test
+    fun getObstacleCountTest() {
+        // Arrange
+        val input = listOf(
+            "....#.....",
+            ".........#",
+            "..........",
+            "..#.......",
+            ".......#..",
+            "..........",
+            ".#..^.....",
+            "........#.",
+            "#.........",
+            "......#...",
+        )
+        val map = Day06().getDataFromInput(input)
+        val route = Day06().getRouteBlocks(map)
+
+        // Act
+        val result = Day06().getObstacleCount(map, route)
+
+        // Assert
+        Assertions.assertEquals(6, result)
     }
 }

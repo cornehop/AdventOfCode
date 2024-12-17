@@ -14,6 +14,9 @@ class Day06 {
         val defaultRoute = getRouteBlocks(map)
         val part1 = defaultRoute.size;
         println("Result for part 1: $part1")
+
+        val part2 = getObstacleCount(map, defaultRoute)
+        println("Result for part 2: $part2")
     }
 
     fun getRouteBlocks(map: List<List<Char>>): List<Pair<Int,Int>> {
@@ -52,29 +55,56 @@ class Day06 {
         return visitedBlocks
     }
 
-    fun predictNextObstacle(map: List<List<Char>>) {
-        // TODO:
-        // make sure the map consists of "+" on every corner where the guard changes route
-        // for every "+", search the next "+" in the same row (do this for every "+")
-        // if the second "+" exists, find a "+" in the same vertical row of the first item
-        // if the third exists, place an obstacle below the fourth block
-        // So if the first is [1][3], the second [1][7] and the third [5][3], then the obstacle should be BELOW [5][7]
-        // OR find the third in the same vertical row as the second item and try te obstacle below the first item
-        // So in that case, if the first is [1][3], the second [1][7] and the third [5][7], then the obstacle should be LEFT of [5][3]
-        // Possibly run the map with the new obstacle, but if it works we should be able to predict this method without even testing it?
-        // Make a version with every test run and a version without the test run and check if they show the same result
+    fun getObstacleCount(map: List<List<Char>>, originalRoute: List<Pair<Int,Int>>): Int {
+        var total = 0;
+        for (position in originalRoute) {
+            val newMap = replaceCurrentPosition(map, position)
+            if (routeLoops(newMap)) {
+                total++
+            }
+        }
+        return total
     }
 
-    fun createSquaresForBlock(map: List<List<Char>>, start: Pair<Int,Int>) {
-        val possibleObstacles = mutableListOf<Pair<Int,Int>>()
-        val line = map[start.first]
-        for (index in line.indices) {
-            val secondBlock = map[start.first][index];
-            if (index <= start.second || secondBlock != '+') {
-                continue;
+    fun routeLoops(map: List<List<Char>>): Boolean {
+        val visitedPositions = mutableListOf<Pair<Pair<Int,Int>,Pair<Int,Int>>>()
+
+        var finished = false
+        var movingDirection = MovingDirection.Up
+        var currentPosition = getStartPosition(map)
+
+        while (!finished) {
+            // Take new position and add to collection (if not already exists)
+            currentPosition = getNextPosition(currentPosition, movingDirection)
+
+            // Determine the next position
+            var nextPosition = getNextPosition(currentPosition, movingDirection)
+
+            // Check if the guard leaves the map with the next step
+            if (getIsFinished(map, nextPosition)) {
+                finished = true
+                continue
             }
 
+            // Check if the guard changes his direction with the next step
+            var nextChar = map[nextPosition.first][nextPosition.second]
+            var isBlocked = nextChar == '#'
+            while (isBlocked) {
+                movingDirection = getNextDirection(movingDirection);
+                nextPosition = getNextPosition(currentPosition, movingDirection)
+                nextChar = map[nextPosition.first][nextPosition.second]
+                isBlocked = nextChar == '#'
+            }
+
+            // Check if the guard has already visited this step
+            if (visitedPositions.any { it.first == currentPosition && it.second == nextPosition }) {
+                return true;
+            } else {
+                visitedPositions.add(Pair(currentPosition, nextPosition))
+            }
         }
+
+        return false
     }
 
     fun getNextPosition(currentPosition: Pair<Int,Int>, direction: MovingDirection): Pair<Int, Int> {
@@ -136,28 +166,14 @@ class Day06 {
                newPosition.second > map[0].size - 1
     }
 
-    private fun getNewDirectionChar(current: Char, direction: MovingDirection): Char {
-        return when (direction) {
-            MovingDirection.Up, MovingDirection.Down -> {
-                when (current) {
-                    '-' -> '+'
-                    else -> '|'
-                }
-            }
-            MovingDirection.Right, MovingDirection.Left -> {
-                when (current) {
-                    '|' -> '+'
-                    else -> '-'
-                }
-            }
+    private fun replaceCurrentPosition(map: List<List<Char>>, position: Pair<Int,Int>): List<List<Char>> {
+        val existingChar = map[position.first][position.second];
+        if (existingChar == '^') {
+            return map;
         }
-    }
 
-    private fun replaceCurrentPosition(map: List<List<Char>>, position: Pair<Int,Int>, direction: MovingDirection): List<List<Char>> {
-        val newChar = getNewDirectionChar(map[position.first][position.second], direction)
-        val newLine = map[position.first].replaceItem(position.second, newChar)
-        map.replaceItem(position.first, newLine)
-        return map
+        val newLine = map[position.first].replaceItem(position.second, '#')
+        return map.replaceItem(position.first, newLine)
     }
 
     private fun <E> Iterable<E>.replaceItem(index: Int, elem: E) = mapIndexed { i, existing ->  if (i == index) elem else existing }
